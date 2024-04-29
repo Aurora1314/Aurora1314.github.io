@@ -9,6 +9,8 @@
     
     <title>
         
+            面向对象-内存-函数 |
+        
         uu&#39;s Blog
     </title>
     
@@ -63,7 +65,7 @@
     
 
     <!-- page content -->
-    <div class="page-main-content border-box is-home">
+    <div class="page-main-content border-box">
         <div class="page-main-content-top">
             
 <header class="header-wrapper">
@@ -86,7 +88,7 @@
                     
                         
                         <li class="menu-item">
-                            <a class="active"
+                            <a class=""
                                href="/"
                             >
                                 
@@ -131,7 +133,7 @@
             
                 
                 <li class="drawer-menu-item flex-center">
-                    <a class="active"
+                    <a class=""
                        href="/"
                     >HOME</a>
                 </li>
@@ -165,41 +167,48 @@
             <div class="main-content border-box">
                 
 
-                    <div class="home-content-container fade-in-down-animation">
-    
-    <ul class="home-post-list border-box">
-        
-            <li class="home-post-item">
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
 
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        面向对象-内存-函数
+                    </div>
                 
 
-                <div class="home-post-item-bottom border-box">
-                    
-                    <h3 class="home-post-title border-box">
-                        <a href="/2024/04/28/C++%E5%AF%B9%E8%B1%A1%E6%9E%84%E9%80%A0/">
-                            面向对象-内存-函数
-                        </a>
-                    </h3>
-
-                    <div class="home-post-content keep-markdown-body">
+                
+                    <div class="post-header border-box">
                         
-                            内存布局1234栈空间堆空间代码区全局区
-malloc和new  申请堆空间内存1234567char *Ptr = (char *)malloc(100 * sizeof(char));  //申请堆内存分配100个字节free(Ptr);    ...
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.png">
+                            </div>
                         
-                    </div>
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">uu</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
 
-                    
-
-<div class="post-meta-info-container border-box home">
+<div class="post-meta-info-container border-box post">
     <div class="post-meta-info border-box">
         
-            <span class="meta-info-item border-box">
-                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Mon Apr 29 2024 23:09:54 GMT+0800"
-                >2024-04-29 23:09:54</span>
-            </span>
-        
 
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-04-28 18:03:14</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Mon Apr 29 2024 23:09:54 GMT+0800">2024-04-29 23:09:54</span>
+            </span>
         
 
         
@@ -213,121 +222,116 @@ malloc和new  申请堆空间内存1234567char *Ptr = (char *)malloc(100 * sizeo
     </div>
 
     
-        <a class="home-read-more" href="/2024/04/28/C++%E5%AF%B9%E8%B1%A1%E6%9E%84%E9%80%A0/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
-    
 </div>
 
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h3 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">栈空间</span><br><span class="line">堆空间</span><br><span class="line">代码区</span><br><span class="line">全局区</span><br></pre></td></tr></table></figure>
+<h3 id="malloc和new-申请堆空间内存"><a href="#malloc和new-申请堆空间内存" class="headerlink" title="malloc和new  申请堆空间内存"></a>malloc和new  申请堆空间内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">char *Ptr = (char *)malloc(100 * sizeof(char));  //申请堆内存分配100个字节</span><br><span class="line">free(Ptr);                      //释放堆空间</span><br><span class="line"></span><br><span class="line">int* ptr = new int;        //申请空间并初始化</span><br><span class="line">delete ptr;                 //释放堆空间   </span><br><span class="line">Person *p = new person;   //在栈空间创建一个指针变量指向堆空间创建的对象的地址</span><br><span class="line">delete  p;                  //释放堆空间   </span><br></pre></td></tr></table></figure>
+<h3 id="全局区-成员变量自动初始化为0"><a href="#全局区-成员变量自动初始化为0" class="headerlink" title="全局区:成员变量自动初始化为0"></a>全局区:成员变量自动初始化为0</h3><h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Struct Person&#123;</span><br><span class="line">	int m_age；</span><br><span class="line">	int m_height</span><br></pre></td></tr></table></figure>
+<h3 id="构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数"><a href="#构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数" class="headerlink" title="构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数"></a>构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">Person</span></span>()&#123;</span><br><span class="line">	int m_age=0;                //初始化  </span><br><span class="line">	int m_height=0;          //初始化</span><br><span class="line">	memset(this,0,sizeof(Person));       //全部初始化为0</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="析构函数，对象销毁时自动调用，有且只有一个析构函数"><a href="#析构函数，对象销毁时自动调用，有且只有一个析构函数" class="headerlink" title="析构函数，对象销毁时自动调用，有且只有一个析构函数"></a>析构函数，对象销毁时自动调用，有且只有一个析构函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~Person（）&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
                 </div>
-            </li>
-        
-            <li class="home-post-item">
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
 
                 
 
-                <div class="home-post-item-bottom border-box">
-                    
-                    <h3 class="home-post-title border-box">
-                        <a href="/2024/04/28/%E5%A6%82%E4%BD%95%E7%94%A8hexo%E5%86%99%E6%96%87%E7%AB%A0/">
-                            如何在hexo博客中写文章
-                        </a>
-                    </h3>
-
-                    <div class="home-post-content keep-markdown-body">
+                
+                    <div class="post-nav border-box">
                         
-                            创建新文章1$ hexo new &quot;My New Post&quot;
-本地创建文章1在blog/source/_posts中创建一个.md文件并在里面输入内容
-
-
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/04/28/%E5%A6%82%E4%BD%95%E7%94%A8hexo%E5%86%99%E6%96%87%E7%AB%A0/"
+                                   title="如何在hexo博客中写文章"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">如何在hexo博客中写文章</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
                         
                     </div>
-
-                    
-
-<div class="post-meta-info-container border-box home">
-    <div class="post-meta-info border-box">
-        
-            <span class="meta-info-item border-box">
-                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Mon Apr 29 2024 23:12:10 GMT+0800"
-                >2024-04-29 23:12:10</span>
-            </span>
-        
-
-        
-
-        
-
-        
-
-        
-        
-        
-        
-    </div>
-
-    
-        <a class="home-read-more" href="/2024/04/28/%E5%A6%82%E4%BD%95%E7%94%A8hexo%E5%86%99%E6%96%87%E7%AB%A0/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
-    
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-post-item">
-
                 
 
-                <div class="home-post-item-bottom border-box">
-                    
-                    <h3 class="home-post-title border-box">
-                        <a href="/2024/04/28/hello-world/">
-                            Hello World
-                        </a>
-                    </h3>
-
-                    <div class="home-post-content keep-markdown-body">
-                        
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, yo...
-                        
-                    </div>
-
+                
                     
 
-<div class="post-meta-info-container border-box home">
-    <div class="post-meta-info border-box">
-        
-            <span class="meta-info-item border-box">
-                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Sun Apr 28 2024 15:54:42 GMT+0800"
-                >2024-04-28 15:54:42</span>
-            </span>
-        
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
 
         
+            
 
-        
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
 
-        
 
-        
-        
-        
+
         
     </div>
 
-    
-        <a class="home-read-more" href="/2024/04/28/hello-world/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
-    
-</div>
 
-                </div>
-            </li>
+
+
+
+                
+            </div>
+        </div>
+
         
-    </ul>
-    
-
-
-
+    </div>
 </div>
 
 
@@ -371,10 +375,33 @@ malloc和new  申请堆空间内存1234567char *Ptr = (char *)malloc(100 * sizeo
 
     <!-- post tools -->
     
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
 
     <!-- side tools -->
     <div class="side-tools">
-        <div class="side-tools-container border-box side-tools-show-handle">
+        <div class="side-tools-container border-box ">
     <ul class="side-tools-list side-tools-show-handle border-box">
         <li class="tools-item tool-font-adjust-plus flex-center">
             <i class="fas fa-search-plus"></i>
@@ -399,6 +426,10 @@ malloc和new  申请堆空间内存1234567char *Ptr = (char *)malloc(100 * sizeo
     <ul class="exposed-tools-list border-box">
         
 
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
         
 
         <li class="tools-item tool-toggle-show flex-center">
@@ -429,7 +460,6 @@ malloc和new  申请堆空间内存1234567char *Ptr = (char *)malloc(100 * sizeo
 
 
 
-
 <!-- common -->
 
 <script src="/js/utils.js"></script>
@@ -454,6 +484,20 @@ malloc和new  申请堆空间内存1234567char *Ptr = (char *)malloc(100 * sizeo
 
 
 <div class="">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
     
 
     <!-- categories page -->
