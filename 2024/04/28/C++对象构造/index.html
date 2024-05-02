@@ -9,7 +9,7 @@
     
     <title>
         
-            面向对象-内存-函数 |
+            C++对象构造 |
         
         uu&#39;s Blog
     </title>
@@ -182,7 +182,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        面向对象-内存-函数
+                        C++对象构造
                     </div>
                 
 
@@ -208,12 +208,12 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2024-04-29 23:03:24</span>
+                <span class="datetime">2024-04-28 18:03:14</span>
             </span>
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Wed May 01 2024 23:52:31 GMT+0800">2024-05-01 23:52:31</span>
+                <span class="datetime" data-updated="Thu May 02 2024 18:22:23 GMT+0800">2024-05-02 18:22:23</span>
             </span>
         
 
@@ -240,11 +240,11 @@
 
                     <h3 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">栈空间</span><br><span class="line">堆空间</span><br><span class="line">代码区</span><br><span class="line">全局区</span><br></pre></td></tr></table></figure>
 <h3 id="malloc和new-申请堆空间内存"><a href="#malloc和new-申请堆空间内存" class="headerlink" title="malloc和new  申请堆空间内存"></a>malloc和new  申请堆空间内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">char *Ptr = (char *)malloc(100 * sizeof(char));  //申请堆内存分配100个字节</span><br><span class="line">free(Ptr);                      //释放堆空间</span><br><span class="line"></span><br><span class="line">int* ptr = new int;        //申请空间并初始化</span><br><span class="line">delete ptr;                 //释放堆空间   </span><br><span class="line">Person *p = new person;   //在栈空间创建一个指针变量指向堆空间创建的对象的地址</span><br><span class="line">delete  p;                  //释放堆空间   </span><br></pre></td></tr></table></figure>
-<h3 id="全局区-成员变量自动初始化为0"><a href="#全局区-成员变量自动初始化为0" class="headerlink" title="全局区:成员变量自动初始化为0"></a>全局区:成员变量自动初始化为0</h3><h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Struct Person&#123;</span><br><span class="line">	int m_age；</span><br><span class="line">	int m_height</span><br></pre></td></tr></table></figure>
-<h3 id="构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数"><a href="#构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数" class="headerlink" title="构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数"></a>构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include&lt;stdint.h&gt;</span></span><br><span class="line"><span class="comment">#include&lt;iostream&gt;</span></span><br><span class="line">struct Person&#123;</span><br><span class="line">	int m_age;</span><br><span class="line">	int m_height;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">Person</span></span>() &#123;</span><br><span class="line">	int m_age = 0;                //初始化  </span><br><span class="line">	int m_height = 0;          //初始化</span><br><span class="line">	memset(this,0,sizeof(Person));       //全部初始化为0</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="全局区-成员变量自动初始化为0"><a href="#全局区-成员变量自动初始化为0" class="headerlink" title="全局区:成员变量自动初始化为0"></a>全局区:成员变量自动初始化为0</h3><h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Struct Person&#123;</span><br><span class="line">	int m_age；</span><br><span class="line">	int m_height</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数"><a href="#构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数" class="headerlink" title="构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数"></a>构造函数，对象创建时自动调用，通过malloc分配的对象不会调用构造函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Struct Person&#123;</span><br><span class="line">	int m_age；</span><br><span class="line">	int m_height</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">Person</span></span>()&#123;</span><br><span class="line">	int m_age=0;                //初始化  </span><br><span class="line">	int m_height=0;          //初始化</span><br><span class="line">	memset(this,0,sizeof(Person));       //全部初始化为0</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="析构函数，对象销毁时自动调用，有且只有一个析构函数"><a href="#析构函数，对象销毁时自动调用，有且只有一个析构函数" class="headerlink" title="析构函数，对象销毁时自动调用，有且只有一个析构函数"></a>析构函数，对象销毁时自动调用，有且只有一个析构函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~<span class="function"><span class="title">Person</span></span>()&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="析构函数，对象销毁时自动调用，有且只有一个析构函数"><a href="#析构函数，对象销毁时自动调用，有且只有一个析构函数" class="headerlink" title="析构函数，对象销毁时自动调用，有且只有一个析构函数"></a>析构函数，对象销毁时自动调用，有且只有一个析构函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~Person（）&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
                 </div>
                 
@@ -267,13 +267,13 @@
                                 <a class="prev"
                                    rel="prev"
                                    href="/2024/04/29/C++%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/"
-                                   title="面向对象-声明和实现分离-命名空间"
+                                   title="C++命名空间"
                                 >
                                     <span class="left arrow-icon flex-center">
                                         <i class="fas fa-chevron-left"></i>
                                     </span>
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">面向对象-声明和实现分离-命名空间</span>
+                                        <span class="post-nav-title-item text-ellipsis">C++命名空间</span>
                                         <span class="post-nav-item">Prev posts</span>
                                     </span>
                                 </a>

@@ -9,7 +9,7 @@
     
     <title>
         
-            面向对象-继承 |
+            C++继承 |
         
         uu&#39;s Blog
     </title>
@@ -182,7 +182,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        面向对象-继承
+                        C++继承
                     </div>
                 
 
@@ -213,7 +213,7 @@
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Wed May 01 2024 23:42:21 GMT+0800">2024-05-01 23:42:21</span>
+                <span class="datetime" data-updated="Thu May 02 2024 18:32:51 GMT+0800">2024-05-02 18:32:51</span>
             </span>
         
 
@@ -239,7 +239,8 @@
                     
 
                     <h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include&lt;stdint.h&gt;</span></span><br><span class="line"><span class="comment">#include&lt;iostream&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">struct Person&#123;</span><br><span class="line">	int m_age;</span><br><span class="line">	void <span class="function"><span class="title">run</span></span>() &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;Person::run()&quot;</span> &lt;&lt; <span class="string">endl;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string">struct Student : Person &#123;     //Sudent是子类，Person是父类</span></span><br><span class="line"><span class="string">	int m_no;</span></span><br><span class="line"><span class="string">	void study() &#123;</span></span><br><span class="line"><span class="string">		cout &lt;&lt; &quot;Student::study()&quot; &lt;&lt; endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	Student student;</span><br><span class="line">	student.m_age = 10;</span><br><span class="line">	cout &lt;&lt; <span class="string">student.m_age &lt;&lt; endl;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
-<h3 id="内存地址父类成员变量先分配内存"><a href="#内存地址父类成员变量先分配内存" class="headerlink" title="内存地址父类成员变量先分配内存"></a>内存地址父类成员变量先分配内存</h3><h3 id="public-protected-子类内部和当前类内部可以访问-private-只有当前内部可以访问"><a href="#public-protected-子类内部和当前类内部可以访问-private-只有当前内部可以访问" class="headerlink" title="public protected(子类内部和当前类内部可以访问) private(只有当前内部可以访问)"></a>public protected(子类内部和当前类内部可以访问) private(只有当前内部可以访问)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">#include&lt;stdint.h&gt;</span></span><br><span class="line"><span class="comment">#include&lt;iostream&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">struct Person&#123;</span><br><span class="line">private:</span><br><span class="line">	int m_age;</span><br><span class="line">public:</span><br><span class="line">	void setAge(int age) &#123;</span><br><span class="line">		m_age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	int <span class="function"><span class="title">getAge</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> m_age;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct Student : public Person &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">struct  GoodStudent : public Student &#123;</span><br><span class="line">	void <span class="function"><span class="title">work</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	GoodStudent student;</span><br><span class="line">	//student.m_age = 10; //private不能访问</span><br><span class="line">	student.setAge(10);    //通过间接访问修改私有变量</span><br><span class="line">	cout &lt;&lt; <span class="string">student.getAge() &lt;&lt; endl;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+<h3 id="内存地址父类成员变量先分配内存"><a href="#内存地址父类成员变量先分配内存" class="headerlink" title="内存地址父类成员变量先分配内存"></a>内存地址父类成员变量先分配内存</h3><p>public(成员在类的内部和外部均可以被访问)<br>protected(子类内部和当前类内部可以访问)<br>private(只有当前内部可以访问)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">#include&lt;stdint.h&gt;</span></span><br><span class="line"><span class="comment">#include&lt;iostream&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">struct Person&#123;</span><br><span class="line">private:</span><br><span class="line">	int m_age;</span><br><span class="line">public:</span><br><span class="line">	void setAge(int age) &#123;</span><br><span class="line">		m_age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	int <span class="function"><span class="title">getAge</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> m_age;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct Student : public Person &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">struct  GoodStudent : public Student &#123;</span><br><span class="line">	void <span class="function"><span class="title">work</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	GoodStudent student;</span><br><span class="line">	//student.m_age = 10; //private不能访问</span><br><span class="line">	student.setAge(10);    //通过间接访问修改私有变量</span><br><span class="line">	cout &lt;&lt; <span class="string">student.getAge() &lt;&lt; endl;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
 <h3 id="class和struct继承"><a href="#class和struct继承" class="headerlink" title="class和struct继承"></a>class和struct继承</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Student : Person&#123;       //等同于class Student : private Person</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">struct Student : Person&#123;      //等同于struct Student : public Person</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 
@@ -260,15 +261,31 @@
                 
                     <div class="post-nav border-box">
                         
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2024/05/02/C++%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/"
+                                   title="C++初始化列表"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">C++初始化列表</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
                         
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
                                    href="/2024/04/29/C++%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/"
-                                   title="面向对象-声明和实现分离-命名空间"
+                                   title="C++命名空间"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">面向对象-声明和实现分离-命名空间</span>
+                                        <span class="post-nav-title-item text-ellipsis">C++命名空间</span>
                                         <span class="post-nav-item">Next posts</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">
