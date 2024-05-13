@@ -9,7 +9,7 @@
     
     <title>
         
-            C++多态-虚函数 |
+            Windows内核 |
         
         uu&#39;s Blog
     </title>
@@ -182,7 +182,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        C++多态-虚函数
+                        Windows内核
                     </div>
                 
 
@@ -208,24 +208,15 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2024-05-03 21:24:26</span>
+                <span class="datetime">2024-05-04 21:19:02</span>
             </span>
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Sun May 05 2024 18:26:46 GMT+0800">2024-05-05 18:26:46</span>
+                <span class="datetime" data-updated="Tue May 14 2024 00:21:58 GMT+0800">2024-05-14 00:21:58</span>
             </span>
         
 
-        
-            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
-                <ul class="post-category-ul">
-                    
-                            <li class="category-item"><a href="/categories/C/">C++</a></li>
-                        
-                    
-                </ul>
-            </span>
         
 
         
@@ -247,26 +238,20 @@
                 <div class="post-content keep-markdown-body">
                     
 
-                    <h3 id="x86和x64区别"><a href="#x86和x64区别" class="headerlink" title="x86和x64区别"></a>x86和x64区别</h3><p>x86 指针占用4个字节，虚函数表指针的大小占4个字节<br>x64 指针占用8个字节，虚函数表指针的大小占8个字节</p>
-<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>多态是面向对象<br>统一操作作用于不同的对象，可以有不同的解释，产生不同的执行结果</p>
-<h3 id="重写"><a href="#重写" class="headerlink" title="重写"></a>重写</h3><p>子类和父类中的虚函数拥有相同的名字，返回值，参数列表，那么称子类中的虚函数重写了父类的虚函数，或者叫做覆盖。</p>
-<h3 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h3><p>C++中的多态通过虚函数来实现<br>虚函数:被virtual修饰的成员函数<br>只要在父类中声明为虚函数，子类中重写的函数也自动变成虚函数(也就是说子类可以省略)</p>
-<h3 id="多态-虚函数"><a href="#多态-虚函数" class="headerlink" title="多态-虚函数"></a>多态-虚函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#include&lt;iostream&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">struct Animal &#123;</span><br><span class="line">	int m_age;</span><br><span class="line">	virtual void <span class="function"><span class="title">speak</span></span>() &#123;          //virtual 定义虚函数</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;Animal speaking&quot;</span> &lt;&lt; <span class="string">endl;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">	virtual void run() &#123;            //virtual 定义虚函数</span></span><br><span class="line"><span class="string">		cout &lt;&lt; &quot;Animal running&quot; &lt;&lt; endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">struct Cat : Animal &#123;</span><br><span class="line">	int m_life;</span><br><span class="line">	void <span class="function"><span class="title">speak</span></span>() &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;Cat speaking&quot;</span> &lt;&lt; <span class="string">endl;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">	void run() &#123;</span></span><br><span class="line"><span class="string">		cout &lt;&lt; &quot;Cat running&quot; &lt;&lt; endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct Dog : Animal &#123;</span><br><span class="line">	void <span class="function"><span class="title">speak</span></span>() &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;Dog speaking&quot;</span> &lt;&lt; <span class="string">endl;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">	void run() &#123;</span></span><br><span class="line"><span class="string">		cout &lt;&lt; &quot;Dog running&quot; &lt;&lt; endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	Animal* <span class="built_in">cat</span> = new Cat;  //没有定义虚函数，会call向Animal类</span><br><span class="line">	<span class="built_in">cat</span>-&gt;run();</span><br><span class="line">	<span class="built_in">cat</span>-&gt;speak();</span><br><span class="line">	cout &lt;&lt; <span class="string">sizeof(Cat) &lt;&lt; endl; //只要有虚函数存在Cat对象就会多四个字节    </span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
-<h3 id="虚表"><a href="#虚表" class="headerlink" title="虚表"></a>虚表</h3><p> <img   src="/images/virtual.png"  alt="FEC-Card"></p>
-<h3 id="x86下对应的汇编代码"><a href="#x86下对应的汇编代码" class="headerlink" title="x86下对应的汇编代码"></a>x86下对应的汇编代码</h3><p>&#x2F;&#x2F;调用run函数<br>cat-&gt;run();</p>
-<p>&#x2F;&#x2F;ebp-8是指针变量cat地址<br>&#x2F;&#x2F;eax是Cat对象的地址<br>000728F4  mov         eax,dword ptr [ebp-8] </p>
-<p>&#x2F;&#x2F;取出Cat对象的最前四个字节给edx<br>&#x2F;&#x2F;取出虚表的地址值给edx<br>000728F7  mov         edx,dword ptr [eax] </p>
-<p>&#x2F;&#x2F;不考虑 000728F9  mov         esi,esp<br>&#x2F;&#x2F;不考虑 000728FB  mov         ecx,dword ptr [ebp-8] </p>
-<p>&#x2F;&#x2F;取出虚表后四个字节给eax<br>&#x2F;&#x2F;取出 Cat::run的函数调用地址给eax<br>000728FE  mov         eax,dword ptr [edx+4] </p>
-<p>&#x2F;&#x2F;调用Cat::run<br>00072901  call        eax  </p>
-<p>&#x2F;&#x2F;调用speak函数<br>cat-&gt;speak();</p>
-<p>&#x2F;&#x2F;ebp-8是指针变量cat地址<br>&#x2F;&#x2F;eax是Cat对象的地址<br>0007290A  mov         eax,dword ptr [ebp-8] </p>
-<p>&#x2F;&#x2F;取出Cat对象的最前四个字节给edx<br>&#x2F;&#x2F;取出虚表的地址值给edx<br>0007290D  mov         edx,dword ptr [eax]  </p>
-<p>&#x2F;&#x2F;不考虑 0007290F  mov         esi,esp<br>&#x2F;&#x2F;不考虑 00072911  mov         ecx,dword ptr [ebp-8] </p>
-<p>&#x2F;&#x2F;取出虚表最前面的四个字节给eax<br>&#x2F;&#x2F;取出 Cat::speak的函数调用地址给eax<br>00072914  mov         eax,dword ptr [edx] </p>
-<p>&#x2F;&#x2F;调用Cat::speak<br>00072916  call        eax </p>
-<h3 id="纯虚函数-抽象类"><a href="#纯虚函数-抽象类" class="headerlink" title="纯虚函数-抽象类"></a>纯虚函数-抽象类</h3><p>纯虚函数:没有函数体且初始化为0的虚函数，用来定义接口规范<br>抽象类：含有纯虚函数的类，不可以实例化（不可以创建对象）<br>抽象类也可以包含非纯虚函数、成员变量<br>如果父类是抽象类，子类没有完全实现纯虚函数，那么这个子类依然是抽象类</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include&lt;iostream&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">struct Animal &#123;    //含有纯虚函数的抽象类</span><br><span class="line">	int m_age;</span><br><span class="line">	virtual void speak() = 0;   //定义纯虚函数</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">	virtual void run() = 0;     //定义纯虚函数</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">struct Dog : Animal &#123;</span><br><span class="line">	void <span class="function"><span class="title">speak</span></span>() &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;Dog speaking&quot;</span> &lt;&lt; <span class="string">endl;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string">struct Hashiqi : Dog &#123;</span></span><br><span class="line"><span class="string">	void speak() &#123;</span></span><br><span class="line"><span class="string">		cout &lt;&lt; &quot;Hashiqi speaking&quot; &lt;&lt; endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	void <span class="function"><span class="title">run</span></span>() &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;Hashiqi running&quot;</span> &lt;&lt; <span class="string">endl;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string">int main() &#123;</span></span><br><span class="line"><span class="string">	// Animal a;  抽象类不能定义对象</span></span><br><span class="line"><span class="string">	// Dog a;     抽象类不能定义对象  没有完全实现纯虚函数的重写</span></span><br><span class="line"><span class="string">	Hashiqi a;</span></span><br><span class="line"><span class="string">	a.speak();</span></span><br><span class="line"><span class="string">	a.run();</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+                    <p>Cpu的两种架构:Risc架构、Cisc架构<br>Risc架构: 适用于手机  页单位2Kb<br>Cisc架构: 适用于电脑  页单位4Kb<br>Cisc架构指令执行过程:取指令、指令译码、访存取数、执行指令、结果写回</p>
+<p>段 就是权限的划分,页就是物理内存的隐藏<br>段:权限的规则<br>页:如何寻找到真正的内存</p>
+<h3 id="保护模式"><a href="#保护模式" class="headerlink" title="保护模式"></a>保护模式</h3><p>80008ble&#96;400020ab<br>base:801e4000</p>
+<p>limit:20ab</p>
+<p>type:b</p>
+<p>s:0<br>DPL:0<br>P:1</p>
+<p>AVL:0<br>def:0<br>d&#x2F;b:0<br>G:0</p>
+<h3 id="D-B位"><a href="#D-B位" class="headerlink" title="D&#x2F;B位"></a>D&#x2F;B位</h3><p>对DS,ES等数据段：<br>D&#x3D;1，段上限为4GB<br>D&#x3D;0，段上限为64KB</p>
+<p>对SS段：<br>D&#x3D;1，使用32位堆栈指针寄存器<br>D&#x3D;0，使用16位堆栈指针寄存器</p>
+<p>对CS段：<br>D&#x3D;1，采用32位寻址方式<br>D&#x3D;0，采用16位寻址方式</p>
+<h3 id="G位"><a href="#G位" class="headerlink" title="G位"></a>G位</h3><p>G&#x3D;0 limit单位是字节<br>G&#x3D;1 limit单位为4KB</p>
+<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>CS：代码段寄存器 描述的代码<br>SS：栈段 描述栈，比如局部变量<br>DS：数据段 堆地址，全局变量  es一样的内容<br>ES 扩展段 串copy movsb so edi esi<br>FS 上下文环境段 R3代表我们TEB R0代码是KPCR<br>除了CS外，其他的段寄存器都可以通过mov，les，lss，lds，lfs，lgs指令进行修改<br>CS是代码段 CS的改变意味着EIP的改变，改变CS的同时必须修改EIP，所以无法使用上面的指令进行修改</p>
+<h3 id="Windbg常用命令"><a href="#Windbg常用命令" class="headerlink" title="Windbg常用命令"></a>Windbg常用命令</h3><p>r :查看寄存器<br>eg:r gdtr 查看gdt表的指向<br>d :查看内存  db(查看1字节) 或者 dw(查看2字节) 或者 dd(查看4字节) 或者 dq(查看8字节)  对应查看字节byte、word、dword、qword<br>eg:dq 地址 L1      &#x2F;&#x2F;L是limit  1是看1个<br>eg:dds 地址       &#x2F;&#x2F;竖着看内存<br>e:写内存    eb(查看1字节) 或者 ew(查看2字节) 或者 ed(查看4字节) 或者 eq(查看8字节)  对应查看字节byte、word、dword、qword<br>eg:eq 地址(80b99048) 写入的字节(00cff300&#96;0000ffff)</p>
+
                 </div>
                 
 
@@ -287,14 +272,14 @@
                             <div class="prev-post">
                                 <a class="prev"
                                    rel="prev"
-                                   href="/2024/05/04/Windows%E5%86%85%E6%A0%B8/"
-                                   title="Windows内核"
+                                   href="/2024/05/04/C++%E5%A4%9A%E7%BB%A7%E6%89%BF/"
+                                   title="C++多继承-虚函数"
                                 >
                                     <span class="left arrow-icon flex-center">
                                         <i class="fas fa-chevron-left"></i>
                                     </span>
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Windows内核</span>
+                                        <span class="post-nav-title-item text-ellipsis">C++多继承-虚函数</span>
                                         <span class="post-nav-item">Prev posts</span>
                                     </span>
                                 </a>
@@ -304,11 +289,11 @@
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
-                                   href="/2024/05/02/C++%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/"
-                                   title="C++初始化列表"
+                                   href="/2024/05/03/C++%E5%A4%9A%E6%80%81/"
+                                   title="C++多态-虚函数"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">C++初始化列表</span>
+                                        <span class="post-nav-title-item text-ellipsis">C++多态-虚函数</span>
                                         <span class="post-nav-item">Next posts</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">
