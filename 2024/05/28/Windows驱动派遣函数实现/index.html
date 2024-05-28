@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="uu">
+    
+    <title>
+        
+            Windows驱动派遣函数实现 |
+        
+        uu&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/avatar.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/../../source/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"uu's Blog","author":"uu","avatar":"/images/avatar.png","logo":"/images/avatar.png","favicon":"/images/avatar.png"},"menu":{"home":"/","archives":"/archives","about":"/about"},"first_screen":{"enable":false,"background_img_dark":"/images/DclwJoxEOVQqBtb.png","hitokoto":true},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"announcement":null,"category":false,"tag":false,"post_datetime":"updated"},"post":{"author_badge":{"enable":false,"level_badge":false},"word_count":{"wordcount":false,"min2read":false},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":false,"share":false,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":false,"number":false,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":false,"preload":false},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":false,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":null}},"inject":{"enable":true,"css":["/css/custom.css","../../source/css/custom.css"],"js":[null]},"root":"","source_data":{},"version":"4.1.1"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.png">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               uu&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                
+                                HOME
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/"
+                    >HOME</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >ARCHIVES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Windows驱动派遣函数实现
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.png">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">uu</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-05-28 12:35:14</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Tue May 28 2024 12:42:15 GMT+0800">2024-05-28 12:42:15</span>
+            </span>
+        
+
+        
+
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h3 id="DriverEntry-c"><a href="#DriverEntry-c" class="headerlink" title="DriverEntry.c"></a>DriverEntry.c</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include&lt;ntifs.h&gt;</span></span><br><span class="line"><span class="comment">#include&lt;stdio.h&gt;</span></span><br><span class="line"></span><br><span class="line">NTSTATUS CreateDevice(PDRIVER_OBJECT driver); //driver驱动对象</span><br><span class="line">void DeleteDevice(PDRIVER_OBJECT pDriver); //删除设备对象</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#define 写测试 CTL_CODE(FILE_DEVICE_UNKNOWN,   0x803, METHOD_BUFFERED,FILE_ANY_ACCESS) //控制码测试</span></span><br><span class="line"><span class="comment">#define 读测试 CTL_CODE(FILE_DEVICE_UNKNOWN,   0x804, METHOD_BUFFERED,FILE_ANY_ACCESS) //控制码测试</span></span><br><span class="line"><span class="comment">#define 读写测试 CTL_CODE(FILE_DEVICE_UNKNOWN, 0x805, METHOD_BUFFERED,FILE_ANY_ACCESS) //控制码测试</span></span><br><span class="line"></span><br><span class="line">void IRP_IO_写测试(PIRP pirp) &#123;</span><br><span class="line">	//取出缓冲区数据 写测试 803</span><br><span class="line">	PIO_STACK_LOCATION irpStack = IoGetCurrentIrpStackLocation(pirp); //获取应用层传来的参数</span><br><span class="line">	irpStack;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void IRP_IO_读测试(PIRP pirp) &#123;</span><br><span class="line">	KdPrint((&quot;cjh:IRP_IO_读测试 行号=%d&quot;, __LINE__));</span><br><span class="line">	char* 缓冲区 = (char*)pirp-&gt;AssociatedIrp.SystemBuffer;</span><br><span class="line">	//0x804</span><br><span class="line">	PIO_STACK_LOCATION irpStack = IoGetCurrentIrpStackLocation(pirp); //获取应用层传来的参数</span><br><span class="line">	//向缓冲区写入</span><br><span class="line">	char 返回字符串[] = <span class="string">&quot;cjh:SYS R0 返回的字符串123456&quot;</span>;</span><br><span class="line">	ULONG 长度 = sizeof(返回字符串);</span><br><span class="line">		memcpy_s(缓冲区, sizeof(返回字符串), 返回字符串, sizeof(返回字符串));</span><br><span class="line"></span><br><span class="line">		KdPrint((&quot;cjh:IRP_IO_读测试 长度%d 行号=%d&quot;, 长度,__LINE__));</span><br><span class="line"></span><br><span class="line">		pirp-&gt;IoStatus.Status = STATUS_SUCCESS;</span><br><span class="line">		pirp-&gt;IoStatus.Information = 长度; //返回给DeviceIoControl中的 倒数第二个参数1pBytesReturned</span><br><span class="line">		IoCompleteRequest(pirp, IO_NO_INCREMENT);//调用方已完成所有I/O请求处理操作 并且不增加优先级</span><br><span class="line">		KdPrint((&quot;cjh:离开派遣函数&quot;));</span><br><span class="line">		irpStack;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void IRP_IO_读写测试(PIRP pirp) &#123;</span><br><span class="line">	PIO_STACK_LOCATION irpStack = IoGetCurrentIrpStackLocation(pirp); //获取应用层传来的参数</span><br><span class="line">	char* 缓冲区 = (char*)pirp-&gt;AssociatedIrp.SystemBuffer;</span><br><span class="line">	<span class="keyword">if</span> (缓冲区) &#123;</span><br><span class="line">		int* p = (int*)缓冲区;</span><br><span class="line">		int 结果 = p[0] + p[1] + p[2];</span><br><span class="line">		//结果</span><br><span class="line">		*(int*)缓冲区 = 结果;</span><br><span class="line">	&#125;</span><br><span class="line">	irpStack;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NTSTATUS IRP_CALL(PDEVICE_OBJECT device, PIRP pirp)</span><br><span class="line">&#123;	</span><br><span class="line">	device;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	KdPrint((&quot;cjh:进入派遣函数&quot;));</span><br><span class="line">	PIO_STACK_LOCATION irpStackL;</span><br><span class="line">	//ULONG CtlCode;</span><br><span class="line">	//ULONG InputBuuffLength;</span><br><span class="line"></span><br><span class="line">	irpStackL = IoGetCurrentIrpStackLocation(pirp); //获取应用层传来的参数</span><br><span class="line">	switch (irpStackL-&gt;MajorFunction)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">case</span> IRP_MJ_DEVICE_CONTROL: //DeviceIoControl</span><br><span class="line">		&#123;</span><br><span class="line">		UINT32 控制码 = irpStackL-&gt;Parameters.DeviceIoControl.IoControlCode;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span> (控制码 == 读测试) &#123;</span><br><span class="line">				IRP_IO_读测试(pirp);</span><br><span class="line">				<span class="built_in">return</span> STATUS_SUCCESS;</span><br><span class="line">			&#125;	</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (控制码 == 写测试) &#123;</span><br><span class="line">				char* 缓冲区 = (char*)pirp-&gt;AssociatedIrp.SystemBuffer;</span><br><span class="line">				KdPrint((&quot;R0 cjh:用户层调用了DeviceIoControl 控制码%X&quot;, 控制码));</span><br><span class="line">				KdPrint((&quot;R0 cjh:用户层调用了DeviceIoControl 控制码%X 缓冲区=%s&quot;, 控制码, 缓冲区));</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (控制码 == 读写测试) &#123;</span><br><span class="line">				<span class="built_in">return</span> STATUS_SUCCESS;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">case</span> IRP_MJ_CREATE: //CreateFile</span><br><span class="line">	&#123;</span><br><span class="line">		KdPrint((&quot;cjh:用户层调用了CreateFile&quot;));   </span><br><span class="line">		<span class="built_in">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">case</span> IRP_MJ_CLOSE: //CloseHandle</span><br><span class="line">	&#123;</span><br><span class="line">		KdPrint((&quot;cjh:用户层调用了CloseHandle&quot;));</span><br><span class="line">		<span class="built_in">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pirp-&gt;IoStatus.Status = STATUS_SUCCESS;</span><br><span class="line">	pirp-&gt;IoStatus.Information = 4; //返回给DeviceIoControl中的 倒数第二个参数1pBytesReturned</span><br><span class="line">	IoCompleteRequest(pirp, IO_NO_INCREMENT);//调用方已完成所有I/O请求处理操作 并且不增加优先级</span><br><span class="line">	KdPrint((&quot;cjh:离开派遣函数&quot;));</span><br><span class="line">	<span class="built_in">return</span> STATUS_SUCCESS; //0 返回成功</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//卸载驱动时 会被调用</span><br><span class="line">void DriverUnload(PDRIVER_OBJECT DriverObject)</span><br><span class="line">&#123;</span><br><span class="line">	//删除符号链接，并且删除驱动设备</span><br><span class="line">	KdPrint((&quot;cjh:进入卸载例程DriverObject=%p 行号=%d&quot;,DriverObject,__LINE__));</span><br><span class="line">	DeleteDevice(DriverObject);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NTSTATUS DriverEntry(</span><br><span class="line">	_In_ PDRIVER_OBJECT DriverObject/*驱动对象*/,</span><br><span class="line">	_In_ PUNICODE_STRING RegistryPath)//注册表</span><br><span class="line">&#123;</span><br><span class="line">	//UN</span><br><span class="line">	RegistryPath;</span><br><span class="line">	DriverObject-&gt;DriverUnload = DriverUnload;   //注册卸载例程 回调函数</span><br><span class="line">	DriverObject-&gt;MajorFunction[IRP_MJ_CREATE] = IRP_CALL;</span><br><span class="line">	DriverObject-&gt;MajorFunction[IRP_MJ_CLOSE] = IRP_CALL;</span><br><span class="line">	DriverObject-&gt;MajorFunction[IRP_MJ_DEVICE_CONTROL] = IRP_CALL;</span><br><span class="line">	CreateDevice(DriverObject); //创建驱动设备</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	KdPrint((&quot;cjh:进入DriverEntry入口点 DriverObject=%p 行号=%d&quot;, DriverObject, __LINE__));</span><br><span class="line"></span><br><span class="line">	KdPrint((&quot;cjh:RegistryPath=%ws\n&quot;, RegistryPath-&gt;Buffer)); //Unicode宽字符</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="创建设备驱动并绑定符号链接-c"><a href="#创建设备驱动并绑定符号链接-c" class="headerlink" title="创建设备驱动并绑定符号链接.c"></a>创建设备驱动并绑定符号链接.c</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#include&lt;ntifs.h&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#define 符号链接名  L&quot;\\??\\MyDriver&quot;</span></span><br><span class="line"></span><br><span class="line">//创建驱动设备对象</span><br><span class="line"> </span><br><span class="line">NTSTATUS CreateDevice(PDRIVER_OBJECT driver) //driver驱动对象</span><br><span class="line">&#123;</span><br><span class="line">	NTSTATUS status;</span><br><span class="line">	UNICODE_STRING MyDriver; //驱动字符串</span><br><span class="line">	PDEVICE_OBJECT device = NULL;  //用于存放设备对象</span><br><span class="line">	RtlInitUnicodeString(&amp;MyDriver, L<span class="string">&quot;\\DEVICE\\MyDriver&quot;</span>);  //驱动设备名字 \\DEVICE\\名字</span><br><span class="line"></span><br><span class="line">	status = IoCreateDevice(driver,</span><br><span class="line">		sizeof(driver-&gt;DriverExtension),</span><br><span class="line">		&amp;MyDriver,//驱动设备名字</span><br><span class="line">		FILE_DEVICE_UNKNOWN,</span><br><span class="line">		FILE_DEVICE_SECURE_OPEN,</span><br><span class="line">		FALSE,</span><br><span class="line">		&amp;device);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (status == STATUS_SUCCESS) //STATUS_SUCCESS</span><br><span class="line">	&#123;</span><br><span class="line">		KdPrint((&quot;cjh：驱动设备对象创建成功，OK\n&quot;));</span><br><span class="line">		//创建符号链接</span><br><span class="line">		UNICODE_STRING uzSybolName; //符号链接名字</span><br><span class="line">		RtlInitUnicodeString(&amp;uzSybolName,符号链接名);  //CreateFile  ReadFile </span><br><span class="line">		status = IoCreateSymbolicLink(&amp;uzSybolName, &amp;MyDriver);</span><br><span class="line">		<span class="keyword">if</span> (status == STATUS_SUCCESS)</span><br><span class="line">		&#123;</span><br><span class="line">			KdPrint((&quot;cjh：创建符号链接 %Z 成功 &quot;, &amp;uzSybolName));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			KdPrint((&quot;cjh:创建符号链接 %wZ 失败 status=%X&quot;, &amp;uzSybolName, status));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		KdPrint((&quot;cjh:驱动设备对象创建失败，删除设备\n&quot;));</span><br><span class="line">		IoDeleteDevice(device);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> status;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void DeleteDevice(PDRIVER_OBJECT pDriver)</span><br><span class="line">&#123;</span><br><span class="line">	KdPrint((&quot;cjh：进入了DriverDevice例程&quot;));</span><br><span class="line">	<span class="keyword">if</span> (pDriver-&gt;DeviceObject)   //判断有没有驱动设备指针</span><br><span class="line">	&#123;</span><br><span class="line">		//删除符号链接</span><br><span class="line">		UNICODE_STRING uzSymbolName;</span><br><span class="line">		RtlInitUnicodeString(&amp;uzSymbolName,符号链接名);  //CreateFile</span><br><span class="line">		KdPrint((&quot;cjh:删除符号链接=%wZ&quot;, &amp;uzSymbolName));</span><br><span class="line">		IoDeleteSymbolicLink(&amp;uzSymbolName);</span><br><span class="line">		//</span><br><span class="line">		KdPrint((&quot;cjh：删除驱动设备&quot;));</span><br><span class="line">		IoDeleteDevice(pDriver-&gt;DeviceObject);//删除设备对象</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	KdPrint((&quot;cjh：退出 DriverDevice例程&quot;));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="用户层Control-cpp"><a href="#用户层Control-cpp" class="headerlink" title="用户层Control.cpp"></a>用户层Control.cpp</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// Control.cpp : 此文件包含 <span class="string">&quot;main&quot;</span> 函数。程序执行将在此处开始并结束。</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;iostream&gt;</span></span><br><span class="line"><span class="comment">#include&lt;Windows.h&gt;</span></span><br><span class="line"><span class="comment">#define 符号链接名 L&quot;\\??\\MyDriver&quot;</span></span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">    HANDLE 驱动设备句柄 = CreateFile(</span><br><span class="line">        符号链接名,</span><br><span class="line">        0, 0, 0, 0, 0, 0);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;驱动设备句柄=%p\n&quot;</span>, 驱动设备句柄);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello World!\n&quot;</span>;</span><br><span class="line">    getchar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="MFC创建GUI界面-MFCDlg-cpp"><a href="#MFC创建GUI界面-MFCDlg-cpp" class="headerlink" title="MFC创建GUI界面 MFCDlg.cpp"></a>MFC创建GUI界面 MFCDlg.cpp</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">// MFCDlg.cpp: 实现文件</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#include &quot;pch.h&quot;</span></span><br><span class="line"><span class="comment">#include &quot;framework.h&quot;</span></span><br><span class="line"><span class="comment">#include &quot;MFC.h&quot;</span></span><br><span class="line"><span class="comment">#include &quot;MFCDlg.h&quot;</span></span><br><span class="line"><span class="comment">#include &quot;afxdialogex.h&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#ifdef _DEBUG</span></span><br><span class="line"><span class="comment">#define new DEBUG_NEW</span></span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 用于应用程序“关于”菜单项的 CAboutDlg 对话框</span><br><span class="line"></span><br><span class="line">class CAboutDlg : public CDialogEx</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">	CAboutDlg();</span><br><span class="line"></span><br><span class="line">// 对话框数据</span><br><span class="line"><span class="comment">#ifdef AFX_DESIGN_TIME</span></span><br><span class="line">	enum &#123; IDD = IDD_ABOUTBOX &#125;;</span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line"></span><br><span class="line">	protected:</span><br><span class="line">	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持</span><br><span class="line"></span><br><span class="line">// 实现</span><br><span class="line">protected:</span><br><span class="line">	DECLARE_MESSAGE_MAP()</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void CAboutDlg::DoDataExchange(CDataExchange* pDX)</span><br><span class="line">&#123;</span><br><span class="line">	CDialogEx::DoDataExchange(pDX);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)</span><br><span class="line">END_MESSAGE_MAP()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// CMFCDlg 对话框</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CMFCDlg::CMFCDlg(CWnd* pParent /*=nullptr*/)</span><br><span class="line">	: CDialogEx(IDD_MFC_DIALOG, pParent)</span><br><span class="line">&#123;</span><br><span class="line">	m_hIcon = AfxGetApp()-&gt;LoadIcon(IDR_MAINFRAME);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void CMFCDlg::DoDataExchange(CDataExchange* pDX)</span><br><span class="line">&#123;</span><br><span class="line">	CDialogEx::DoDataExchange(pDX);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BEGIN_MESSAGE_MAP(CMFCDlg, CDialogEx)</span><br><span class="line">	ON_WM_SYSCOMMAND()</span><br><span class="line">	ON_WM_PAINT()</span><br><span class="line">	ON_WM_QUERYDRAGICON()</span><br><span class="line">	ON_BN_CLICKED(IDC_BUTTON1_CREATE, &amp;CMFCDlg::OnBnClickedButton1Create)</span><br><span class="line">	ON_BN_CLICKED(IDC_BUTTON2_CLOSE, &amp;CMFCDlg::OnBnClickedButton2Close)</span><br><span class="line">	ON_BN_CLICKED(IDC_BUTTON3_IO_W, &amp;CMFCDlg::OnBnClickedButton3IoW)</span><br><span class="line">	ON_BN_CLICKED(IDC_BUTTON4_IO_R, &amp;CMFCDlg::OnBnClickedButton4IoR)</span><br><span class="line">	ON_BN_CLICKED(IDC_BUTTON5_IO_R2, &amp;CMFCDlg::OnBnClickedButton5IoR2)</span><br><span class="line">END_MESSAGE_MAP()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// CMFCDlg 消息处理程序</span><br><span class="line"></span><br><span class="line">BOOL CMFCDlg::<span class="function"><span class="title">OnInitDialog</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	CDialogEx::OnInitDialog();</span><br><span class="line"></span><br><span class="line">	// 将“关于...”菜单项添加到系统菜单中。</span><br><span class="line"></span><br><span class="line">	// IDM_ABOUTBOX 必须在系统命令范围内。</span><br><span class="line">	ASSERT((IDM_ABOUTBOX &amp; <span class="number">0</span>xFFF0) == IDM_ABOUTBOX);</span><br><span class="line">	ASSERT(IDM_ABOUTBOX &lt; <span class="number">0</span>xF000);</span><br><span class="line"></span><br><span class="line">	CMenu* pSysMenu = GetSystemMenu(FALSE);</span><br><span class="line">	if (pSysMenu != nullptr)</span><br><span class="line">	&#123;</span><br><span class="line">		BOOL bNameValid;</span><br><span class="line">		CString strAboutMenu;</span><br><span class="line">		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);</span><br><span class="line">		ASSERT(bNameValid);</span><br><span class="line">		if (!strAboutMenu.IsEmpty())</span><br><span class="line">		&#123;</span><br><span class="line">			pSysMenu-&gt;AppendMenu(MF_SEPARATOR);</span><br><span class="line">			pSysMenu-&gt;AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// 设置此对话框的图标。  当应用程序主窗口不是对话框时，框架将自动</span><br><span class="line">	//  执行此操作</span><br><span class="line">	SetIcon(m_hIcon, TRUE);			// 设置大图标</span><br><span class="line">	SetIcon(m_hIcon, FALSE);		// 设置小图标</span><br><span class="line"></span><br><span class="line">	// TODO: 在此添加额外的初始化代码</span><br><span class="line"></span><br><span class="line">	<span class="built_in">return</span> TRUE;  // 除非将焦点设置到控件，否则返回 TRUE</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void CMFCDlg::OnSysCommand(UINT nID, LPARAM lParam)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> ((nID &amp; <span class="number">0</span>xFFF0) == IDM_ABOUTBOX)</span><br><span class="line">	&#123;</span><br><span class="line">		CAboutDlg dlgAbout;</span><br><span class="line">		dlgAbout.DoModal();</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		CDialogEx::OnSysCommand(nID, lParam);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 如果向对话框添加最小化按钮，则需要下面的代码</span><br><span class="line">//  来绘制该图标。  对于使用文档/视图模型的 MFC 应用程序，</span><br><span class="line">//  这将由框架自动完成。</span><br><span class="line"></span><br><span class="line">void CMFCDlg::OnPaint()</span><br><span class="line">&#123;</span><br><span class="line">	if (IsIconic())</span><br><span class="line">	&#123;</span><br><span class="line">		CPaintDC dc(this); // 用于绘制的设备上下文</span><br><span class="line"></span><br><span class="line">		SendMessage(WM_ICONERASEBKGND, reinterpret_cast&lt;WPARAM&gt;(dc.GetSafeHdc()), 0);</span><br><span class="line"></span><br><span class="line">		// 使图标在工作区矩形中居中</span><br><span class="line">		int cxIcon = GetSystemMetrics(SM_CXICON);</span><br><span class="line">		int cyIcon = GetSystemMetrics(SM_CYICON);</span><br><span class="line">		CRect rect;</span><br><span class="line">		GetClientRect(&amp;rect);</span><br><span class="line">		int x = (rect.Width() - cxIcon + 1) / 2;</span><br><span class="line">		int y = (rect.Height() - cyIcon + 1) / 2;</span><br><span class="line"></span><br><span class="line">		// 绘制图标</span><br><span class="line">		dc.DrawIcon(x, y, m_hIcon);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		CDialogEx::OnPaint();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//当用户拖动最小化窗口时系统调用此函数取得光标</span><br><span class="line">//显示。</span><br><span class="line">HCURSOR CMFCDlg::<span class="function"><span class="title">OnQueryDragIcon</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">return</span> static_cast&lt;HCURSOR&gt;(m_hIcon);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#include&lt;winioctl.h&gt;</span></span><br><span class="line"><span class="comment">#define 写测试 CTL_CODE(FILE_DEVICE_UNKNOWN,   0x803, METHOD_BUFFERED,FILE_ANY_ACCESS) //控制码测试</span></span><br><span class="line"><span class="comment">#define 读测试 CTL_CODE(FILE_DEVICE_UNKNOWN,   0x804, METHOD_BUFFERED,FILE_ANY_ACCESS) //控制码测试</span></span><br><span class="line"><span class="comment">#define 读写测试 CTL_CODE(FILE_DEVICE_UNKNOWN, 0x805, METHOD_BUFFERED,FILE_ANY_ACCESS) //控制码测试</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#define 符号链接名  L&quot;\\??\\MyDriver&quot;</span></span><br><span class="line"></span><br><span class="line">static HANDLE DeviceHandle = NULL; //存放驱动设备句柄</span><br><span class="line"></span><br><span class="line">void CMFCDlg::<span class="function"><span class="title">OnBnClickedButton1Create</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	// TODO: 在此添加控件通知处理程序代码</span><br><span class="line">	DeviceHandle = CreateFileW(</span><br><span class="line">		符号链接名,</span><br><span class="line">		GENERIC_READ | GENERIC_WRITE,	//读 写   ReadFile WriteFile DeviceControl</span><br><span class="line">		FILE_SHARE_READ | FILE_SHARE_WRITE,   //共享读写</span><br><span class="line">		NULL,</span><br><span class="line">		OPEN_EXISTING, //设备</span><br><span class="line">		FILE_ATTRIBUTE_NORMAL,</span><br><span class="line">		NULL);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void CMFCDlg::<span class="function"><span class="title">OnBnClickedButton2Close</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	// TODO: 在此添加控件通知处理程序代码</span><br><span class="line">	//关闭驱动设备</span><br><span class="line">	CloseHandle(DeviceHandle);  //IRP_MJ_COLSH</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void CMFCDlg::<span class="function"><span class="title">OnBnClickedButton3IoW</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	DWORD dwRetSize = 0; //返回字节数</span><br><span class="line">	char buftest[256];</span><br><span class="line">	sprintf_s(buftest, <span class="string">&quot;cjh:EXE R3 写测试 控制码=%X\n&quot;</span> , 写测试);   </span><br><span class="line">	OutputDebugStringA(buftest);</span><br><span class="line">	char 传入数据[] = <span class="string">&quot;DeviceIoControl 写测试123123\n&quot;</span>;</span><br><span class="line">	//数组示例</span><br><span class="line">	char OutBuf[1] = &#123; 0 &#125;; //输出缓冲区</span><br><span class="line">	DeviceIoControl(</span><br><span class="line">		DeviceHandle, //CreateFile打开驱动设备 返回的句柄</span><br><span class="line">		写测试, //控制码 CTL_CODE</span><br><span class="line">		传入数据, //输入缓冲区指针</span><br><span class="line">		sizeof(传入数据), //输入缓冲区大小</span><br><span class="line">		&amp;OutBuf, //返回缓冲区</span><br><span class="line">		sizeof(OutBuf), //返回缓冲区大小</span><br><span class="line"></span><br><span class="line">		&amp;dwRetSize, //返回字节数</span><br><span class="line">		NULL);</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void CMFCDlg::<span class="function"><span class="title">OnBnClickedButton4IoR</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	DWORD dwRetSize = 0; //返回字节数</span><br><span class="line"></span><br><span class="line">	char 返回数据[512] = &#123; 0 &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	//数组示例</span><br><span class="line">	DWORD 输入缓冲区;</span><br><span class="line">	DeviceIoControl(</span><br><span class="line">		DeviceHandle, //CreateFile打开驱动设备 返回的句柄</span><br><span class="line">		读测试, //控制码 CTL_CODE</span><br><span class="line">		&amp;输入缓冲区, //输入缓冲区指针</span><br><span class="line">		4, //输入缓冲区大小</span><br><span class="line">		返回数据, //返回缓冲区</span><br><span class="line">		sizeof(返回数据), //返回缓冲区大小</span><br><span class="line"></span><br><span class="line">		&amp;dwRetSize, //返回字节数</span><br><span class="line">		NULL);</span><br><span class="line">	strcat_s(返回数据, <span class="string">&quot;-&gt;EXE R3&quot;</span>);</span><br><span class="line">	OutputDebugStringA(返回数据);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void CMFCDlg::<span class="function"><span class="title">OnBnClickedButton5IoR2</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	DWORD dwRetSize = 0; //返回字节数</span><br><span class="line">	char buftest[256];</span><br><span class="line">	sprintf_s(buftest, <span class="string">&quot;cjh:EXE R3 读写测试 控制码=%X\n&quot;</span>, 写测试);</span><br><span class="line">	OutputDebugStringA(buftest);</span><br><span class="line">	char 传入数据[3] = &#123;3,7,8&#125;;</span><br><span class="line">	//数组示例</span><br><span class="line">	int OutBuf = 0;</span><br><span class="line">	DeviceIoControl(</span><br><span class="line">		DeviceHandle, //CreateFile打开驱动设备 返回的句柄</span><br><span class="line">		读写测试, //控制码 CTL_CODE</span><br><span class="line">		传入数据, //输入缓冲区指针</span><br><span class="line">		sizeof(传入数据), //输入缓冲区大小</span><br><span class="line">		&amp;OutBuf, //返回缓冲区</span><br><span class="line">		sizeof(OutBuf), //返回缓冲区大小</span><br><span class="line"></span><br><span class="line">		&amp;dwRetSize, //返回字节数</span><br><span class="line">		NULL);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+                </div>
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/05/10/ObRegisterCallbacks%E6%B3%A8%E5%86%8C%E5%AF%B9%E8%B1%A1%E5%9B%9E%E8%B0%83%E5%AE%9E%E7%8E%B0%E8%BF%9B%E7%A8%8B%E4%BF%9D%E6%8A%A4/"
+                                   title="ObRegisterCallbacks注册对象回调实现进程保护"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">ObRegisterCallbacks注册对象回调实现进程保护</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2024
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">uu</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div class="count-item info-item default">
+            
+
+            
+
+            
+        </div>
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+
+    <!-- tablet toc -->
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+
+</body>
+</html>
